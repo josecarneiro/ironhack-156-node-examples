@@ -1,0 +1,51 @@
+{{!-- {{> NAME_OF_THE_PARTIAL OBJECT_THAT_I_WANT_TO_BE_THIS}} --}}
+{{> movie movieItem}}
+
+<br/>
+<br/>
+
+<form method="POST" action="/movie/{{ movieItem._id }}"> 
+  <div>
+    <label for="movie-title">Movie Title</label>
+    <input type="text" name="title" placeholder="Movie Title" value="{{ movieItem.title }}"/>
+  </div>
+
+  <div>
+    <label for="movie-director">Movie Director</label>
+    <input type="text" name="director" placeholder="Director" value="{{ movieItem.director }}"/>
+  </div>
+
+  <button>Save</button>
+</form>
+
+<br/>
+<br/>
+
+<form method="POST" action="/movie/{{ movieItem._id }}/delete"> 
+  <button>Delete</button>
+</form>
+
+<br/>
+<br/>
+
+<form method="POST" action="/movie/{{ movieItem._id }}/review">
+  <div>
+    <label for="review-body">Review Body</label>
+    <textarea id="review-body" required name="body"></textarea>
+  </div>
+  <div>
+    <label for="review-rate">Rate</label>
+    <input id="review-rate" name="rate" required type="number" min="0" max="10">
+  </div>
+  <button>Submit Review</button>
+</form>
+
+<h3>Reviews</h3>
+
+{{#each reviews}}
+  <a href="/review/{{ this._id }}">
+    <span>{{ this.body }}</span>
+    <small>{{ this.rate }}</small>
+  </a>
+  <br />
+{{/each}}

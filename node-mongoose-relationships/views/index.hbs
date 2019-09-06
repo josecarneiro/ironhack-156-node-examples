@@ -1,0 +1,9 @@
+<h1>List of movies</h1>
+<div class="movie-list">
+  {{#each movieList}}
+    <a href="/movie/{{ this._id }}">
+      {{!-- Here movie refers to the partial name --}}
+      {{> movie}}
+    </a>
+  {{/each}}
+</div>
