@@ -28,10 +28,14 @@ router.get('/movie/:movieId', (req, res, next) => {
   // Movie.findOne({ _id: movieId })
   Movie.findById(movieId)
     .then(movieItem => {
-      const data = {
-        movieItem
-      };
-      res.render('movie', data);
+      if (!movieItem) {
+        next(new Error('MOVIE_NOT_FOUND'));
+      } else {
+        const data = {
+          movieItem
+        };
+        res.render('movie', data);
+      }
     })
     .catch(error => {
       next(error);
@@ -59,5 +63,20 @@ router.post('/movie/:movieId', (req, res, next) => {
       console.log('Had trouble updating the movie ' + movieId);
     })
 });
+
+// router.delete('/movie/:movieId', (req, res, next) => {
+router.post('/movie/:movieId/delete', (req, res, next) => {
+  console.log('Deleting movie');
+  const movieId = req.params.movieId;
+
+  Movie.findByIdAndDelete(movieId)
+    .then(() => {
+      console.log('Movie ' + movieId + ' was deleted.');
+      res.redirect('/');
+    })
+    .catch(error => {
+      console.log('Failed at deleting the movie ' + movieId);
+    })
+})
 
 module.exports = router;
