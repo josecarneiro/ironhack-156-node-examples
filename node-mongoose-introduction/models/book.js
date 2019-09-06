@@ -10,7 +10,7 @@ const bookSchema = new mongoose.Schema({
     type: String,
     minlength: 3,
     maxlength: 20,
-    lowercase: true,
+    // lowercase: true,
     // uppercase: true,
     required: true,
     enum: [ '1984', 'Hello World' ],

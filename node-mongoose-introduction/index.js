@@ -3,19 +3,27 @@ const mongoose = require('mongoose');
 const MONGODB_URI = 'mongodb://127.0.0.1:27017';
 const DATABASE_NAME = 'example';
 
+const Book = require('./models/book');
+
 mongoose.connect(`${ MONGODB_URI }/${ DATABASE_NAME }`, { useNewUrlParser: true })
   .then(message => {
     console.log('Mongoose connected.');
     // createAndListBooks();
     // loadSingleItem();
-    alternativeDocumentCreation();
+      // Removes all of the documents
+      Book.deleteMany()
+        .then(() => {
+          console.log('Succeeded deleting documents');
+          alternativeDocumentCreation();
+        })
+        .catch(error => {
+          console.log('Error deleting documents');
+        });
   })
   .catch(error => {
     console.log('Error connecting to database');
     console.log(error);
   });
-
-const Book = require('./models/book');
 
 function createAndListBooks () {
   const book = new Book({
@@ -70,6 +78,15 @@ function alternativeDocumentCreation () {
     .then(book => {
       console.log('Created new book');
       console.log(book);
+      // mongoose.connection.close(false, () => {
+      // });
+      mongoose.disconnect()
+        .then(() => {
+          console.log('MongoDB connection was closed');
+        })
+        .catch(() => {
+          console.log('Failed at disconnecting from MongoDB');
+        })
     })
     .catch(error => {
       console.log('Had an error creating the book');
