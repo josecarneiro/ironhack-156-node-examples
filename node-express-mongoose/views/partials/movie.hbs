@@ -1,0 +1,12 @@
+<div class="movie-item">
+  <h3>{{ this.title }}</h3>
+  <span>{{ this.year }} | <strong>{{ this.director }}</strong></span>
+  <br/>
+  <small>Duration: {{ this.duration }}, Rate: {{ this.rate }}</small>
+  <br/>
+  <span>
+    {{#each this.genre}}
+      {{ this }}{{#unless @last}},{{/unless}}
+    {{/each}}
+  </span>
+</div>

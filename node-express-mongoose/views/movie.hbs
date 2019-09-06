@@ -1,0 +1,20 @@
+{{!-- {{> NAME_OF_THE_PARTIAL OBJECT_THAT_I_WANT_TO_BE_THIS}} --}}
+{{> movie movieItem}}
+
+<br/>
+<br/>
+<br/>
+
+<form method="POST" action="/movie/{{ movieItem._id }}"> 
+  <div>
+    <label for="movie-title">Movie Title</label>
+    <input type="text" name="title" placeholder="Movie Title" value="{{ movieItem.title }}"/>
+  </div>
+
+  <div>
+    <label for="movie-director">Movie Director</label>
+    <input type="text" name="director" placeholder="Director" value="{{ movieItem.director }}"/>
+  </div>
+
+  <button>Save</button>
+</form>
