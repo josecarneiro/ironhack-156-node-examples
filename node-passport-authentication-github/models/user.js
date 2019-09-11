@@ -10,7 +10,15 @@ const schema = new mongoose.Schema({
     trim: true,
     unique: true
   },
-  passwordHash: {
+  name: {
+    type: String,
+    trim: true
+  },
+  githubID: {
+    type: String,
+    required: true
+  },
+  githubToken: {
     type: String,
     required: true
   },

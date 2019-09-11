@@ -72,33 +72,28 @@ passport.deserializeUser((id, callback) => {
     });
 });
 
-/*
-passport.use('sign-in', new PassportLocalStrategy({ usernameField: 'email' }, (email, password, callback) => {
-  User.signIn(email, password)
+passport.use('github', new PassportGithubStrategy({
+  clientID: process.env.GITHUB_APPLICATION_ID,
+  clientSecret: process.env.GITHUB_APPLICATION_SECRET,
+  callbackURL: 'http://localhost:3000/authentication/github-authorization',
+  scope: 'user:email'
+}, (accessToken, refreshToken, profile, callback) => {
+  // console.log(accessToken, refreshToken);
+  User.findOne({ githubID: profile.id })
+    .then(user => {
+      if (user) {
+        return User.signIn(profile.id, accessToken);
+      } else {
+        const email = profile.emails.find(item => item.primary).value;
+        return User.signUp(profile, email, accessToken);
+      }
+    })
     .then(user => {
       callback(null, user);
     })
     .catch(error => {
       callback(error);
     });
-}));
-*/
-
-passport.use('github-sign-up', new PassportGithubStrategy({
-  clientID: process.env.GITHUB_APPLICATION_ID,
-  clientSecret: process.env.GITHUB_APPLICATION_SECRET,
-  callbackURL: 'http://localhost:3000/authentication/github-authorization',
-  scope: 'user:email'
-}, (accessToken, refreshToken, profile, callback) => {
-  console.log(accessToken, refreshToken, profile);
-  callback(null, { _id: 'abc' });
-  // User.signUp(email, password)
-  //   .then(user => {
-  //     callback(null, user);
-  //   })
-  //   .catch(error => {
-  //     callback(error);
-  //   });
 }));
 
 app.use(passport.initialize());

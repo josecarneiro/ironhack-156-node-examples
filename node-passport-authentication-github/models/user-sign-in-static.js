@@ -3,25 +3,20 @@
 const bcrypt = require('bcrypt');
 
 // Create a sign in static that is going to abstact the authentication functionality
-module.exports = function(email, password) {
+module.exports = function(githubID, accessToken) {
   const Model = this;
 
-  let auxiliaryUser;
-
-  return Model.findByEmail(email)
+  return Model.findOne({ githubID })
     .then(user => {
       if (!user) {
         throw new Error('USER_NOT_FOUND');
       } else {
-        auxiliaryUser = user;
-        return bcrypt.compare(password, user.passwordHash);
-      }
-    })
-    .then(matches => {
-      if (!matches) {
-        throw new Error('PASSWORD_DOESNT_MATCH');
-      } else {
-        return Promise.resolve(auxiliaryUser);
+        // const accessTokenMatches = user.accessToken === accessToken;
+        // if (!accessTokenMatches) {
+        //   throw new Error('GITHUB_ACCESS_TOKEN_DOESNT_MATCH');
+        // } else {
+          return Promise.resolve(user);
+        // }
       }
     })
     .catch(error => {

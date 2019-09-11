@@ -5,11 +5,14 @@ const router = Router();
 const passport = require('passport');
 const routeGuardMiddleware = require('./../controllers/route-guard-middleware');
 
-router.get('/github', passport.authenticate('github-sign-up'));
-
-router.get('/github-authorization', passport.authenticate('github-sign-up', {
+router.get('/github', passport.authenticate('github', {
   failureRedirect: '/',
-  successRedirect: '/authorization/private'
+  successRedirect: '/authentication/private'
+}));
+
+router.get('/github-authorization', passport.authenticate('github', {
+  failureRedirect: '/',
+  successRedirect: '/authentication/private'
 }));
 
 /*

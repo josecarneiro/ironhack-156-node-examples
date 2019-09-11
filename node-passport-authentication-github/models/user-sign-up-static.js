@@ -3,7 +3,7 @@
 const bcrypt = require('bcrypt');
 
 // Create a sign in static that is going to abstact the authentication functionality
-module.exports = function(email, password) {
+module.exports = function(profile, email, accessToken) {
   const Model = this;
 
   return Model.findByEmail(email)
@@ -11,14 +11,13 @@ module.exports = function(email, password) {
       if (user) {
         throw new Error('USER_ALREADY_EXISTS');
       } else {
-        return bcrypt.hash(password, 10);
+        return Model.create({
+          email,
+          name: profile.displayName,
+          githubID: profile.id,
+          githubToken: accessToken
+        });
       }
-    })
-    .then(hash => {
-      return Model.create({
-        email,
-        passwordHash: hash
-      });
     })
     .then(user => {
       return Promise.resolve(user);
