@@ -6,8 +6,6 @@ const router = Router();
 const Restaurant = require('./../models/restaurant');
 
 router.get('/', (req, res, next) => {
-  // Restaurant.find()
-
   Restaurant.find({
     location: {
       $near: {

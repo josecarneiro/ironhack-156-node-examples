@@ -13,6 +13,10 @@ const usersRouter = require('./routes/user');
 
 const app = express();
 
+const hbs = require('hbs');
+
+hbs.registerHelper('JSON', context =>  JSON.stringify(context, null, 2));
+
 // Setup view engine
 app.set('views', join(__dirname, 'views'));
 app.set('view engine', 'hbs');
